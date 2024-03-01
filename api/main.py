@@ -1,11 +1,19 @@
 from fastapi import FastAPI
 from fastapi.responses import JSONResponse
 from fastapi.middleware.cors import CORSMiddleware
+from db_main import session
+from Link import ShortUrl, URLCreate
+from Link import Base
 
 app = FastAPI()
 
 origins = [
-    "http://localhost:*",
+    "http://localhost:8000",
+    "http://localhost",
+    "http://localhost:3000",
+    "http://localhost:3000/ceos",
+    "http://localhost:5173",
+    "http://localhost:5174"
 ]
 
 app.add_middleware(
@@ -19,3 +27,18 @@ app.add_middleware(
 @app.get("/")
 def home():
     return {"message: root route."}
+
+@app.get('/shorturl')
+def get_shorturl():
+    shorturl = session.query(ShortUrl)
+    return shorturl.all()
+
+@app.post("/create/url")
+async def create_ShortUrl( og: str, shorturl: str, title: str, ):
+    new_ceo = ShortUrl(og= og, shorturl=shorturl, title=title)
+    session.add(new_ceo)
+    session.commit()
+    return {"URL added": new_ceo.shorturl}
+
+def create_tables():
+    Base.metadata.create_all(session)
