@@ -4,6 +4,7 @@ import URLS from "./routes/UrlShortner";
 import Home from "./routes/Home";
 import ErrorPage from "./pages/ErrorPage";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import { createRoot } from "react-dom/client";
 
 const router = createBrowserRouter([
   {
@@ -17,6 +18,7 @@ const router = createBrowserRouter([
       {
         path: "/urlshortner",
         element: <URLS />,
+        loader: URLS,
       },
     ],
   },
@@ -27,3 +29,5 @@ function App() {
 }
 
 export default App;
+
+createRoot(document.getElementById("root")).render(<App />);

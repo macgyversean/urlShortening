@@ -1,4 +1,4 @@
-import PropTypes from "prop-types";
+import propTypes from "prop-types";
 import { Link } from "react-router-dom";
 
 const Navigation = ({ navItems }) => {
@@ -16,7 +16,7 @@ const Navigation = ({ navItems }) => {
     </nav>
   );
 };
-Navigation.PropTypes = {
-  navItems: PropTypes.array,
+Navigation.propTypes = {
+  navItems: propTypes.array,
 };
 export default Navigation;

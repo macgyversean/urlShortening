@@ -17,8 +17,8 @@ const URLS = () => {
         {data.map((url, index) => {
           return (
             <li key={index}>
-              <Link to={url.slug}>
-                {url.name} - {url.title}
+              <Link to={url.og}>
+                {url.shorturl} - {url.title}
               </Link>
             </li>
           );
