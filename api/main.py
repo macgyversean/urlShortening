@@ -2,8 +2,8 @@ from fastapi import FastAPI
 from fastapi.responses import JSONResponse
 from fastapi.middleware.cors import CORSMiddleware
 from db_main import session
-from models import ShortUrl, URLCreate
-from models import Base
+from models.links import ShortUrl, URLCreate
+from models.base import Base
 
 app = FastAPI()
 
