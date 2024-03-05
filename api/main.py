@@ -2,7 +2,7 @@ from fastapi import FastAPI
 from fastapi.responses import JSONResponse
 from fastapi.middleware.cors import CORSMiddleware
 from db_main import session
-from models.links import ShortUrl, URLCreate
+from models.links import Links, linksSchema
 from models.base import Base
 
 app = FastAPI()
@@ -28,14 +28,14 @@ app.add_middleware(
 def home():
     return {"message: root route."}
 
-@app.get('/shorturl')
+@app.get('/links')
 def get_shorturl():
-    shorturl = session.query(ShortUrl)
+    shorturl = session.query(Links)
     return shorturl.all()
 
-@app.post("/create/url")
-async def create_ShortUrl( og: str, shorturl: str, title: str, ):
-    new_ceo = ShortUrl(og= og, shorturl=shorturl, title=title)
+@app.post("/create/links")
+async def create_ShortUrl( url_data: linksSchema):
+    new_ceo = Links(**url_data.dict())
     session.add(new_ceo)
     session.commit()
     return {"URL added": new_ceo.shorturl}

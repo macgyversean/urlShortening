@@ -3,9 +3,11 @@ from logging.config import fileConfig
 from sqlalchemy import engine_from_config
 from sqlalchemy import pool
 
-from models.models import Base, BaseModel
+from models.base import Base
+from models.links import Links
 from config import settings
 from alembic import context
+from models.users import User
 
 # from db_main import url
 
