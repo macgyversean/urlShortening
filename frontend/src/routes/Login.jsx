@@ -7,28 +7,42 @@ export async function action({ request }) {
   const password = formData.get("password");
   const data = { email, password };
 
-  const url = "http://localhost:8000/register";
-  const response = await fetch(url, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(data),
-  });
+  const url = "http://localhost:8000/login";
 
-  return redirect("/");
+  const userLogin = async (data) => {
+    const options = {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(data),
+    };
+    const response = await fetch(url, options);
+    data = await response.json();
+
+    if (response.ok) {
+      window.alert(data.detail);
+      return true;
+    } else {
+      window.alert("Login Failed");
+      return false;
+    }
+  };
+
+  const login = await userLogin(data);
+  return login ? redirect("/") : redirect("/login");
 }
 const login = () => {
   return (
     <>
-      <h2>URL Submit Form</h2>
+      <h2>Login</h2>
       <Form method="post">
         <label>
-          Email
+          Your Email
           <input type="text" name="email" />
         </label>
         <label>
-          Password
+          Your Password
           <input type="password" name="password" />
         </label>
         <button type="submit">Add New User</button>
@@ -36,4 +50,5 @@ const login = () => {
     </>
   );
 };
+
 export default login;

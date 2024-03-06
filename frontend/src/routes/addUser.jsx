@@ -16,7 +16,7 @@ export async function action({ request }) {
     body: JSON.stringify(data),
   });
 
-  return redirect("/");
+  return redirect("/login");
 }
 const UserCreate = () => {
   return (

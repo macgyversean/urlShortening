@@ -4,15 +4,15 @@ import { Link } from "react-router-dom";
 const Navigation = ({ navItems }) => {
   return (
     <nav>
-      <ul>
+      <div className="primaryNav">
         {navItems.map((link, index) => {
           return (
-            <li key={`${link.title}-${index}`}>
+            <div key={`${link.title}-${index}`}>
               <Link to={link.url}>{link.title}</Link>
-            </li>
+            </div>
           );
         })}
-      </ul>
+      </div>
     </nav>
   );
 };
