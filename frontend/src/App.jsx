@@ -1,11 +1,11 @@
 import "./App.css";
 import Layout from "./pages/Layout";
-import URLS from "./routes/UrlShortner";
+import Urls, { loader as urlsLoader } from "./routes/UrlShortner";
 import Home from "./routes/Home";
 import ErrorPage from "./pages/ErrorPage";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import { createRoot } from "react-dom/client";
-
+import UserCreate, { action as addUserAction } from "./routes/addUser";
+import login from "./routes/login";
 const router = createBrowserRouter([
   {
     element: <Layout />,
@@ -17,8 +17,17 @@ const router = createBrowserRouter([
       },
       {
         path: "/urlshortner",
-        element: <URLS />,
-        loader: URLS,
+        element: <Urls />,
+        loader: urlsLoader,
+      },
+      {
+        path: "/register",
+        element: <UserCreate />,
+        action: addUserAction,
+      },
+      {
+        path: "login",
+        element: <login />,
       },
     ],
   },
@@ -29,5 +38,3 @@ function App() {
 }
 
 export default App;
-
-createRoot(document.getElementById("root")).render(<App />);

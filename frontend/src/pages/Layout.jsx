@@ -4,6 +4,7 @@ import Navigation from "../components/navigation";
 const primaryNav = [
   { title: "Home", url: "/" },
   { title: "Url Shortner", url: "/UrlShortner" },
+  { title: "Register", url: "/register" },
 ];
 
 const Layout = () => {

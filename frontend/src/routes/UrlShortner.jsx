@@ -1,13 +1,13 @@
-import { useLoaderData, Link } from "react-router-dom";
+import { useLoaderData, Link, redirect, Form } from "react-router-dom";
 
 export async function loader() {
-  const url = "http://localhost:8000/URLS";
+  const url = "http://localhost:8000/links";
   const data = await fetch(url).then((response) => response.json());
 
   return { data };
 }
 
-const URLS = () => {
+const Urls = () => {
   const { data } = useLoaderData();
 
   return (
@@ -28,4 +28,4 @@ const URLS = () => {
   );
 };
 
-export default URLS;
+export default Urls;
