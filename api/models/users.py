@@ -1,7 +1,7 @@
 from sqlalchemy import Column, Integer, String, UniqueConstraint
 from pydantic import BaseModel, Field
 from models.base import Base
-import bcrypt
+
 
 
 class User(Base):
