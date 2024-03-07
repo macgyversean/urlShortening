@@ -1,6 +1,6 @@
 const Home = () => {
   return;
-  <h1 class="text-3xl font-bold underline">Hello world!</h1>;
+  <h1 data-theme="dark">Hello world!</h1>;
 };
 
 export default Home;

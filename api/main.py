@@ -1,4 +1,4 @@
-from fastapi import FastAPI, HTTPException, status
+from fastapi import FastAPI, HTTPException, status, Query
 from fastapi.responses import JSONResponse
 from fastapi.middleware.cors import CORSMiddleware
 from db_main import session, engine
@@ -6,8 +6,10 @@ from models.links import Links, linksSchema
 from models.base import Base
 from config import settings
 from models.users import User, UserSchema, UserAccountSchema
+from models.tokens import Token, tokenData, create_access_token
 from services import create_user, get_user
-
+from datetime import timedelta, date 
+from starlette.responses import RedirectResponse
 
 def create_tables():
     Base.metadata.create_all(bind=engine)
@@ -81,4 +83,17 @@ async def login(payload: UserAccountSchema):
             status_code=status.HTTP_401_UNAUTHORIZED,
             detail="Invalid User Credentials"
         )
-    return {"detail": "Login Successful"}
+    access_token_expires= timedelta(minutes=120)
+    access_token = create_access_token(
+        data={"email": user.email}, expires_delta=access_token_expires
+    )
+    return Token(access_token=access_token, token_type="bearer")
+
+@app.get("/sendit")
+async def redirect_to_external_url(url: str = Query(...)):
+    link = session.query(Links).filter(Links.shorturl == url).first()
+
+    long_url = f"https://{link.og}"
+
+    return RedirectResponse(long_url)
+

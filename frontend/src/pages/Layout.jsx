@@ -7,6 +7,7 @@ const primaryNav = [
   { title: "Url Shortner", url: "/UrlShortner" },
   { title: "Register", url: "/register" },
   { title: "Login", url: "/login" },
+  { title: "Add Link", url: "/create/links" },
 ];
 
 const Layout = () => {

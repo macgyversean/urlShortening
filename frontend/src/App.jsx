@@ -4,9 +4,10 @@ import Urls, { loader as urlsLoader } from "./routes/UrlShortner";
 import Home from "./routes/Home";
 import ErrorPage from "./pages/ErrorPage";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import UserCreate, { action as addUserAction } from "./routes/addUser";
+import UserCreate, { action as addUserAction } from "./routes/Register";
 import Login, { action as loginUserAction } from "./routes/Login";
 import React from "react";
+import AddLink, { action as addUrlUserAction } from "./routes/addUrl";
 
 const router = createBrowserRouter([
   {
@@ -31,6 +32,11 @@ const router = createBrowserRouter([
         path: "login",
         element: <Login />,
         action: loginUserAction,
+      },
+      {
+        path: "/create/links",
+        element: <AddLink />,
+        action: addUrlUserAction,
       },
     ],
   },
