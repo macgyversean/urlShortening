@@ -1,8 +1,9 @@
 import { Outlet } from "react-router-dom";
 import Navigation from "../components/navigation";
+import React from "react";
 
 const primaryNav = [
-  { title: "Home", url: "/", href: "#", current: true },
+  { title: "Home", url: "/" },
   { title: "Url Shortner", url: "/UrlShortner" },
   { title: "Register", url: "/register" },
   { title: "Login", url: "/login" },
