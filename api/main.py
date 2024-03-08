@@ -1,15 +1,22 @@
-from fastapi import FastAPI, HTTPException, status, Query
+from fastapi import FastAPI, HTTPException, status, Depends, Query
 from fastapi.responses import JSONResponse
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.security import OAuth2PasswordBearer
+from sqlalchemy.exc import IntegrityError
+from datetime import timedelta, date 
+from starlette.responses import RedirectResponse
+
+#import tools 
+ #this is db connection file
 from db_main import session, engine
+from config import settings
+
+#our models
 from models.links import Links, linksSchema
 from models.base import Base
-from config import settings
 from models.users import User, UserSchema, UserAccountSchema
 from models.tokens import Token, tokenData, create_access_token
 from services import create_user, get_user, get_current_user_token
-from datetime import timedelta, date 
-from starlette.responses import RedirectResponse
 
 
 ouath2_scheme = OAuth2PasswordBearer(tokenUrl="login")
@@ -57,7 +64,7 @@ def get_shorturl():
 
 
 
-@app.post("/create/links")
+@app.post("/create/links", status_code=200)
 async def create_ShortUrl( url_data: linksSchema):
     new_ceo = Links(**url_data.dict())
     session.add(new_ceo)
@@ -104,9 +111,11 @@ def loutgout (token: str = Depends(ouath2_scheme)):
     try: 
         session.add(token)
         session.commit()
-    except Integrity
+    except IntegrityError as e:
+        raise settings.CREDENTIALS_EXCEPTION
+    return {"details": "Logged out successfully"}
+            
 
-@app.get("/users")
-def get_users():
-    users = session.query(User)
-    return users.all()
+@app.get("/getusers", status_code=200)
+async def get_user_id(current_user: User = Depends(get_current_user_token)):
+    return{"email": current_user.email, "id": current_user.id}
