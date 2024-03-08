@@ -8,6 +8,7 @@ const primaryNav = [
   { title: "Register", url: "/register" },
   { title: "Login", url: "/login" },
   { title: "Add Link", url: "/create/links" },
+  { title: "Logout", url: "/logout" },
 ];
 
 const Layout = () => {

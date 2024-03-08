@@ -15,6 +15,7 @@ export async function action({ request }) {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
+      Authorization: `Bearer ${localStorage.getItem("access_token")}`,
     },
     body: JSON.stringify(data),
   });
@@ -31,7 +32,7 @@ const AddLink = () => {
         </label>
         <label>
           Add Short Url
-          <input type="text" name="shorturl" />
+          <input type="hidden" name="shorturl" value="" />
         </label>
         <label>
           title
@@ -39,7 +40,7 @@ const AddLink = () => {
         </label>
         <label>
           UserId
-          <input type="integer" required name="user_id" />
+          <input type="hidden" name="user_id" value={user_id} />
         </label>
         <button type="submit">Add New Link</button>
       </Form>

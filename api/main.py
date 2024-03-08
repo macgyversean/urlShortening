@@ -7,9 +7,13 @@ from models.base import Base
 from config import settings
 from models.users import User, UserSchema, UserAccountSchema
 from models.tokens import Token, tokenData, create_access_token
-from services import create_user, get_user
+from services import create_user, get_user, get_current_user_token
 from datetime import timedelta, date 
 from starlette.responses import RedirectResponse
+
+
+ouath2_scheme = OAuth2PasswordBearer(tokenUrl="login")
+
 
 def create_tables():
     Base.metadata.create_all(bind=engine)
@@ -30,7 +34,8 @@ origins = [
     "http://localhost:3000/ceos",
     "http://localhost:5173",
     "http://localhost:5174",
-    "http://localhost:5175"
+    "http://localhost:5175",
+    "http://localhost:5173/login"
 ]
 
 app.add_middleware(
@@ -50,10 +55,7 @@ def get_shorturl():
     shorturl = session.query(Links)
     return shorturl.all()
 
-@app.get("/users")
-def get_users():
-    users = session.query(User)
-    return users.all()
+
 
 @app.post("/create/links")
 async def create_ShortUrl( url_data: linksSchema):
@@ -97,3 +99,14 @@ async def redirect_to_external_url(url: str = Query(...)):
 
     return RedirectResponse(long_url)
 
+@app.post("/logout", status_code=200)
+def loutgout (token: str = Depends(ouath2_scheme)):
+    try: 
+        session.add(token)
+        session.commit()
+    except Integrity
+
+@app.get("/users")
+def get_users():
+    users = session.query(User)
+    return users.all()

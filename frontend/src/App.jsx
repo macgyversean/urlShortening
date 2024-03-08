@@ -8,7 +8,8 @@ import UserCreate, { action as addUserAction } from "./routes/Register";
 import Login, { action as loginUserAction } from "./routes/Login";
 import React from "react";
 import AddLink, { action as addUrlUserAction } from "./routes/addUrl";
-
+import { AuthProvider } from "./AuthContext";
+import Logout from "./routes/Logout";
 const router = createBrowserRouter([
   {
     element: <Layout />,
@@ -38,12 +39,20 @@ const router = createBrowserRouter([
         element: <AddLink />,
         action: addUrlUserAction,
       },
+      {
+        path: "/logout",
+        element: <Logout />,
+      },
     ],
   },
 ]);
 
 function App() {
-  return <RouterProvider router={router} />;
+  return (
+    <AuthProvider>
+      <RouterProvider router={router} />
+    </AuthProvider>
+  );
 }
 
 export default App;

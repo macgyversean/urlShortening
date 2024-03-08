@@ -12,3 +12,17 @@ def create_user(user: UserAccountSchema):
 
 def get_user(email: str):
     return session.query(User).filter(User.email == email).one()
+
+
+async def get_current_user_token(token: str = Depends(oauth2_scheme)):
+    credentials_exception = HTTPException(
+        status_code=status.HTTP_401_UNAUTHORIZED,
+        detail="Could not validate credentials",
+        headers={"WWW-Authenticate": "Bearer"},
+    )
+    try:
+        payload = jwt.decode(token, settings.SECRET_KEY, algorithms=[settings.ALGORITHM])
+        email: str = payload.get("email")
+        if email is None:
+            raise credentials_exception
+        except jwt.expire_signature:
